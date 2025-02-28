@@ -1,5 +1,4 @@
-console.log("Script carregado!")
-export async function startAutomate(documentos, useOrigin) {
+async function startAutomate(documentos, useOrigin) {
   //Verifica se existe log já existente e remove para iniciar um novo.
   const localErrors = localStorage.getItem("log");
   const data = localStorage.getItem("data")
@@ -40,8 +39,46 @@ export async function startAutomate(documentos, useOrigin) {
 function generateFile(log, data) {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
-  doc.text(JSON.stringify(log), 10, 10);
-  doc.text(JSON.stringify(data), 20, 20);
-  doc.save(`${data[0].fatura}`)
+
+  let y = 20; // Define a posição inicial de y
+
+  // Título do Relatório
+  doc.setFontSize(16);
+  doc.text(`Relatório de Documentos`, 10, y);
+
+  y += 10; // Avança para a próxima linha
+
+  // Fatura com tamanho de fonte padrão (maior)
+  doc.setFontSize(10);
+  doc.text(`Fatura: ${(data[0].fatura === "0" ? "Não faturado" : data[0].fatura)}`, 10, y);
+  doc.text(`Valor Faturado: ${(data[1].valor_faturado === "" ? "R$ 0,00" : "R$ " + data[1].valor_faturado)}`, 20 + doc.getTextWidth(`Fatura: ${(data[0].fatura === "0" ? "Não faturado" : data[0].fatura)}`), y);
+  doc.text(`Total de documentos não faturados: ${log.length}`, 120, y)
+
+  y += 10; // Move para a próxima linha após o título e informações da fatura
+
+  // Itera sobre os itens do log
+  log.forEach((item, index) => {
+    const documento = Object.keys(item)[0];
+    const mensagem = item[documento];
+
+    // Define o tamanho da fonte para os documentos
+    doc.setFontSize(12);
+    doc.text(`Documento: ${documento}`, 10, y);
+    y += 5;
+
+    // Formata a mensagem
+    const formatMessage = doc.splitTextToSize(`Mensagem: ${mensagem}`, 180);
+    doc.text(formatMessage, 10, y);
+    y += formatMessage.length * 5; // Ajusta a posição vertical após o texto
+
+    // Linha separadora
+    doc.line(10, y + 5, 200, y + 5);
+
+    y += 15; // Move para a próxima linha
+  });
+
+  // Salva o arquivo PDF
+  doc.save(`${data[0].fatura}.pdf`);
 }
+
 
