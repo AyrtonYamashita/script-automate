@@ -45,6 +45,3 @@ function generateFile(log, data) {
   doc.save(`${data[0].fatura}`)
 }
 
-module.exports = { startAutomate }
-
-
