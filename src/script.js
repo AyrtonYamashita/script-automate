@@ -1,3 +1,5 @@
+console.log("Script carregado!")
+
 export function teste() {
   return console.log("Função executada com sucesso!")
 }
@@ -6,9 +8,7 @@ export function teste2(texto) {
   return console.log(`Função executada com sucesso! ${texto}`)
 }
 
-module.exports = {teste, teste2}
-
-console.log("Script carregado!")
+module.exports = { teste, teste2 }
 
 // async function processarDocumentos() {
 //   const localErrors = localStorage.getItem("log");
