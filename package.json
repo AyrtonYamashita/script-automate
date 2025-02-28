@@ -1,0 +1,13 @@
+{
+  "name": "script-automate",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node script.js",
+    "dev": "node --watch script.js"
+  },
+  "keywords": [],
+  "author": "Ayrton Yamashita",
+  "license": "ISC",
+  "description": "Script de automação de processos de faturamento."
+}
