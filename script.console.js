@@ -3,12 +3,12 @@ script_jsPDF.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd
 document.head.appendChild(script_jsPDF);
 
 const script_automate = document.createElement("script");
-script_automate.src = "https://cdn.jsdelivr.net/gh/AyrtonYamashita/script-automate@v1.0.5/dist/script.min.js";
+script_automate.src = "https://cdn.jsdelivr.net/gh/AyrtonYamashita/script-automate@v1.0.6/dist/script.min.js";
 document.head.appendChild(script_automate);
 (async () => {
   let documentos = [{ "JGS": "01974046" }, { "GYN": "01490856" }, { "POA": "11811458" }];
 
-  const { startAutomate } = await import("https://cdn.jsdelivr.net/gh/AyrtonYamashita/script-automate@v1.0.5/dist/script.min.js");
+  const { startAutomate } = await import("https://cdn.jsdelivr.net/gh/AyrtonYamashita/script-automate@v1.0.6/dist/script.min.js");
 
   startAutomate(documentos, false);
 })();

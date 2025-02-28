@@ -1,4 +1,4 @@
-async function startAutomate(documentos, useOrigin) {
+export async function startAutomate(documentos, useOrigin) {
   //Verifica se existe log já existente e remove para iniciar um novo.
   const localErrors = localStorage.getItem("log");
   const data = localStorage.getItem("data")
