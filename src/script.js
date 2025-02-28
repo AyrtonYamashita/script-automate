@@ -1,55 +1,50 @@
-const ultlido = document.querySelector("#ult_lido");
-const fatura = document.querySelector("#nro_fatura");
-const valor_fatura = document.querySelector("#vlr");
 console.log("Script carregado!")
+export async function startAutomate(documentos, useOrigin) {
+  //Verifica se existe log já existente e remove para iniciar um novo.
+  const localErrors = localStorage.getItem("log");
+  const data = localStorage.getItem("data")
+  if (localErrors || data) {
+    localStorage.removeItem("log");
+    localStorage.removeItem("data")
+  }
 
-// async function processarDocumentos() {
-//   const localErrors = localStorage.getItem("log");
-//   if (localErrors) {
-//     localStorage.removeItem("log");
-//   }
-//   for (const [index, doc] of documentos.entries()) {
-//     const chave = Object.keys(doc)[0];
-//     const valor = doc[chave];
-//     // document.getElementById("1").value = chave;
-//     document.getElementById("2").value = valor;
-//     document.getElementById("3").click();
-//     await new Promise(resolve => setTimeout(resolve, 500));
-//     console.log(chave, valor)
+  for (const [index, doc] of documentos.entries()) {
+    const origem = Object.keys(doc)[0];
+    const ctrc = doc[origem];
+    if (useOrigin) document.getElementById("1").value = origem;
+    document.getElementById("2").value = ctrc;
+    document.getElementById("3").click();
+    await new Promise(resolve => setTimeout(resolve, 500));
+    console.log(`Documento identificado: ${origem, ctrc}`);
 
-//     const errorDiv = document.getElementById("errormsg");
-//     if (errorDiv && errorDiv.innerText.trim() !== "") {
-//       const mensagemErro = errorDiv.textContent;;
+    const errorLabel = document.getElementById("errormsglabel");
+    if (errorLabel && errorLabel.innerText.trim() !== "") {
+      const error = errorLabel.textContent;
+      const errorLog = JSON.parse(localStorage.getItem("log")) || [];
+      errorLog.push({ [ctrc]: error });
+      localStorage.setItem("log", JSON.stringify(errorLog));
+      document.getElementById("0").click();
+      await new Promise(resolve => setTimeout(resolve, 500));
+    }
 
-//       const errosAnteriores = JSON.parse(localStorage.getItem("log")) || [];
-//       errosAnteriores.push({ documento: doc, erro: mensagemErro });
-//       localStorage.setItem("log", JSON.stringify(errosAnteriores));
-//       document.getElementById("0").click();
-//       await new Promise(resolve => setTimeout(resolve, 500));
-//     }
-//     if (index === documentos.length - 1) {
-//       const erros = JSON.stringify(localStorage.getItem("log"));
-//       const blob = new Blob([localStorage.getItem("log")], { type: 'application/json' });
-//       const url = URL.createObjectURL(blob);
-//       const a = document.createElement("a")
-//       a.href = url;
-//       document.body.appendChild(a)
-//       a.download = `relatorio_erros.txt`
-//       a.click()
-//       document.body.removeChild(a)
-//       URL.revokeObjectURL(url)
-
-//     }
-//   }
-// }
-// processarDocumentos();
-
-function teste() {
-  console.log("Função executada com sucesso!")
+    if (index === documentos.length - 1) {
+      const fatura = document.querySelector("#nro_fatura");
+      const vlr_faturado = document.querySelector("#vlr");
+      const errorLog = JSON.parse(localStorage.getItem("log")) || [];
+      localStorage.setItem("data", JSON.stringify([{ fatura: fatura.value }, { valor_faturado: vlr_faturado.value }]));
+      alert(`Automação encerrada!\nDocumentos processados: ${documentos.length - errorLog.length}\nDocumentos não processados: ${errorLog.length}\nTotal de documentos lidos: ${documentos.length}`)
+      generateFile(errorLog, JSON.parse(localStorage.getItem("data")))
+    }
+  }
+}
+function generateFile(log, data) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.text(JSON.stringify(log), 10, 10);
+  doc.text(JSON.stringify(data), 20, 20);
+  doc.save(`${data[0].fatura}`)
 }
 
-function teste2(texto) {
-  console.log(`Função executada com sucesso! ${texto}`)
-}
+module.exports = { startAutomate }
 
 
