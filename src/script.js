@@ -1,6 +1,6 @@
-const ultlido = document.querySelector("#ult_lido");
-const fatura = document.querySelector("#nro_fatura");
-const valor_fatura = document.querySelector("#vlr");
+// const ultlido = document.querySelector("#ult_lido");
+// const fatura = document.querySelector("#nro_fatura");
+// const valor_fatura = document.querySelector("#vlr");
 console.log("Script carregado!")
 
 // async function processarDocumentos() {
