@@ -1,6 +1,13 @@
-// const ultlido = document.querySelector("#ult_lido");
-// const fatura = document.querySelector("#nro_fatura");
-// const valor_fatura = document.querySelector("#vlr");
+export function teste() {
+  return console.log("Função executada com sucesso!")
+}
+
+export function teste2(texto) {
+  return console.log(`Função executada com sucesso! ${texto}`)
+}
+
+module.exports = {teste, teste2}
+
 console.log("Script carregado!")
 
 // async function processarDocumentos() {
@@ -44,12 +51,6 @@ console.log("Script carregado!")
 // }
 // processarDocumentos();
 
-function teste() {
-  console.log("Função executada com sucesso!")
-}
 
-function teste2(texto) {
-  console.log(`Função executada com sucesso! ${texto}`)
-}
 
 
