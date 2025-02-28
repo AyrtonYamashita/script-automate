@@ -56,6 +56,13 @@ function generateFile(log, data) {
 
   y += 10; // Move para a próxima linha após o título e informações da fatura
 
+  const checkPageOverflow = () => {
+    if (y >= pageHeight - 20) {
+      doc.addPage();
+      y = 20; // Reseta o valor de y para o topo da nova página
+    }
+  };
+
   // Itera sobre os itens do log
   log.forEach((item, index) => {
     const documento = Object.keys(item)[0];
@@ -75,6 +82,8 @@ function generateFile(log, data) {
     doc.line(10, y + 5, 200, y + 5);
 
     y += 15; // Move para a próxima linha
+
+    checkPageOverflow();
   });
 
   // Salva o arquivo PDF
