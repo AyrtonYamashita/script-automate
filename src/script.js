@@ -41,6 +41,7 @@ function generateFile(log, data) {
   const doc = new jsPDF();
 
   let y = 20; // Define a posição inicial de y
+  const pageHeight = doc.internal.pageSize.height;
 
   // Título do Relatório
   doc.setFontSize(16);
@@ -89,5 +90,4 @@ function generateFile(log, data) {
   // Salva o arquivo PDF
   doc.save(`${data[0].fatura}.pdf`);
 }
-
 
